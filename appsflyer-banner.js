@@ -1,18 +1,14 @@
 /**
  * AppsFlyer Banner Generator
  * Feb-2018, MIT License
-*/
-
-/**
- * https://github.com/AppsFlyerSDK/AppsFlyerBannerGenerator
-*/
+ */
 
 var CALL_TO_ACTION_TEXT = "Install";
 var DEFAULT_SUBDOMAIN = "go";
 var MOBILE_REGEXP = "/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/i"
 
 function AFBanner () {
-    
+
     this.buildUrl = function(settings) {
         
         function getParam(label, value) {
@@ -82,11 +78,12 @@ function AFBanner () {
         iconContainer.appendChild(iconImg);
 
         // DOWNLOAD BUTTON
+        var downloadUrl = "window.location.replace('" + url + "')";
         var downloadButton = document.createElement("BUTTON");
-        downloadButton.setAttribute('id', 'appsflyer-banner-button');
         downloadButton.setAttribute('class', 'appsflyer-banner-download-button');
+        downloadButton.setAttribute('onclick', downloadUrl);
         downloadButton.innerHTML = settings.call_to_action || CALL_TO_ACTION_TEXT;
-
+        
         // BANNER CONTAINER
         var bannerContainer = document.createElement("DIV");
         bannerContainer.setAttribute('class', 'appsflyer-banner-container');
@@ -124,13 +121,6 @@ function AFBanner () {
         return true;
     }
 
-    this.getRedirect = function(appStoreLink, mobileAppDeeplink) {
-        document.location = mobileAppDeeplink;
-        setTimeout(function () {
-            window.location = appStoreLink;
-        }, 25);
-    }
-
     this.init = function(bannerContainerId, settings) {
 
         // validate required input
@@ -144,10 +134,6 @@ function AFBanner () {
             var div = document.getElementById(bannerContainerId);
             div.appendChild(banner);
 
-            // add click listeners
-            var appButton = document.getElementById('appsflyer-banner-button');
-            appButton.addEventListener('click', () => this.getRedirect(url, settings.mobile_deeplink));
-
             // required for handheld devices
             var metaTag = document.createElement('meta');
             metaTag.name = "viewport";
@@ -156,4 +142,3 @@ function AFBanner () {
         }
     };
 }
-
